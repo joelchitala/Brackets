@@ -374,6 +374,18 @@ const execute = (num_1, opcode, num_2) =>{
     return result;
 }
 
+const is_num = (variable) =>{
+    if (typeof(variable) == "number") {
+        return true
+    }
+
+    if (typeof(variable) == "string") {
+        return variable.match("[0-9]") ? true : false
+    }
+
+    return false
+}
+
 class Interpreter{
     constructor(){
         this.data = {
@@ -396,7 +408,9 @@ class Interpreter{
     }
 
     numerizer = (array,recurse = false) =>{
-        let results;
+        let results = [];
+
+        let temp = []
 
         const stack = this.data.stack;
         console.log(array);
@@ -418,17 +432,50 @@ class Interpreter{
 
                         switch (token) {
                             case OPCODES.EVAL:
+                                let res = this.numerizer(array[f_el],true)
                                 
-                                let res = this.numerizer(stack[f_el],true)
-                                
-                                if (results) {
-                                    console.log(res);
-                                }
-                                console.log(`Results ${results}`);
+                                temp.push(res)
+                                // if (results) {
+                                //     console.log(`Results ${results}`);
+                                //     console.log(this.numerizer(stack[f_el],true));
+                                // }
+
                                 results = res
                                 break;
                             default:
                                 // console.log(token);
+
+                                if (token == OPCODES.MUL) {
+                                    console.log(temp);
+                                }
+                                
+                                if (token == OPCODES.DIV) {
+                                    
+                                }
+
+                                if (token == OPCODES.ADD) {
+                                    
+                                }
+
+                                if (token == OPCODES.SUB) {
+                                    const el_1 = this.lookBackward(array,i)
+                                    const el_2 = this.lookForward(array,i);
+
+                                    if (el_1 && el_2) {
+                                        // console.log(is_num(el_1));
+                                        // console.log(is_num(el_2));
+
+                                        if (is_num(el_1) && is_num(el_2)) {
+                                            
+                                        }else{
+                                            results.push(el_1)
+                                            results.push(token)
+                                            results.push(el_2)
+                                        }
+                                    }
+                                    
+                                    // console.log(match("[0-9]"));
+                                }
 
                                 break;
                         }
