@@ -273,7 +273,7 @@ const decomposer = (equation) =>{
     return stack
 }
 
-function isSorted(array) {
+const isSorted = (array) =>{
     for (let index = 0; index < array.length - 1; index++) {
         if (array[index] > array[index + 1]) {
         return false;
@@ -457,4 +457,4 @@ class Interpreter{
     
 }
 
-new Interpreter().multiplexer(eq_6)
+// new Interpreter().multiplexer(eq_6)
