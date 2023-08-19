@@ -4,7 +4,7 @@ const eq_2 = `(n-1)(n-(n-3))`
 const eq_3 = `n(n+2)`
 const eq_4 = `32n^2 + 38`
 const eq_5 = `(n-1)(n-2^(1)(2))`
-const eq_6 = `(n-1)(n-2)`
+const eq_6 = `(n-1)(n-5)`
 
 const remWhiteSpaces = (string) =>{
     let str = ""
@@ -130,15 +130,20 @@ const parser = (equation) =>{
         const token = equation[i];
         switch (i) {
             case 0:
-                if(token == "(") parsed_array.push(OPCODES.BRKOP)
+                if(token == "("){
+                    parsed_array.push(OPCODES.ADD)
+                    parsed_array.push(OPCODES.BRKOP)
+                }
                 if(token == "+") parsed_array.push(OPCODES.ADD)
                 if(token == "-") parsed_array.push(OPCODES.SUB)
                 if (!OPERANDS.includes(token))parsed_array.push(OPCODES.ADD)
                 break;
             default:
+                
                 if (OPERANDS.includes(token) && num_str != "") {
                     parsed_array.push(num_str)
                     num_str = ""
+
                 }
                 if (token == "(") {
                     if (!opcodeVals.includes(getLastElement(parsed_array))) {
@@ -186,11 +191,14 @@ const parser = (equation) =>{
                         parsed_array.push(OPCODES.SUB)
                     }
                 }
+                
                 break;
         }
         if (!OPERANDS.includes(token)) {
             if (!token.match("[0-9]")) {
+                
                 if (num_str != "") {
+                    // parsed_array.push(OPCODES.ADD)
                     parsed_array.push(num_str)
                     num_str = ""
                     parsed_array.push(OPCODES.MUL)
@@ -205,6 +213,9 @@ const parser = (equation) =>{
         }
     }
     if (num_str != "") {
+        if (getLastElement(parsed_array) != OPCODES.SUB) {
+            parsed_array.push(OPCODES.ADD)
+        }
         parsed_array.push(num_str)
         num_str = ""
     }
