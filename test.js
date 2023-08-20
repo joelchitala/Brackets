@@ -1,6 +1,6 @@
 
 const arr1 = ['n','MUL', 'SUB','x', 'PWR', 'SUB','2','MUL', 'a','MUL', 'SUB', 'EVAL','1','SUB','1','ADD','7']
-const arr2 = ['SUB','n','ADD','5']
+const arr2 = ['SUB','n','MUL','ADD','2','ADD','5']
 const arr3 = ['SUB','n','ADD','9']
 // const arr3 = ['EVAL','1','PWR','SUB','2','PWR','SUB','3','SUB','5']
 // const arr3 = ['ADD','n','MUL','SUB', 'EVAL', '1','PWR','ADD','25','PWR','SUB','19','PWR','ADD','EVAL','2']
