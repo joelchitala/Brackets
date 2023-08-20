@@ -1,8 +1,8 @@
 
 const arr1 = ['n','MUL', 'SUB','x', 'PWR', 'SUB','2','MUL', 'a','MUL', 'SUB', 'EVAL','1','SUB','1','ADD','7']
 const arr2 = ['SUB','n','SUB','2','ADD','5']
-// const arr3 = ['EVAL','1','PWR','SUB','2','PWR','SUB','3','SUB','5']
-const arr3 = ['ADD','n','MUL','SUB', 'EVAL', '1','PWR','ADD','2','PWR','SUB','1']
+const arr3 = ['EVAL','1','PWR','SUB','2','PWR','SUB','3','SUB','5']
+// const arr3 = ['ADD','n','MUL','SUB', 'EVAL', '1','PWR','ADD','25','PWR','SUB','19','PWR','ADD','EVAL','2']
 
 const OPCODES = {
     ADD:"ADD",
@@ -542,11 +542,41 @@ const asymetric_sorter = (array = [], ommit = [], reverse = false) =>{
 
 // }
 
+const dict_traverser = (dict={},key) =>{
+
+    
+    let recursable = 1
+    let view = null
+    while(recursable){
+
+        if (!view) {
+            if (dict[key]) {
+                if (Object.keys(dict[key]).length > 0) {
+                    recursable++
+                    view = dict[key]
+                }
+            }else{
+                return dict
+            }
+        }else{
+            if (view[key]) {
+                if (Object.keys(view[key]).length > 0) {
+                    recursable++
+                    view = view[key]
+                }else{
+                    return view
+                }
+            }else{
+                return view
+            }
+        }
+        recursable--
+    }
+
+    return
+}
 
 const scanner = (array = []) =>{
-
-    console.log(array);
-
 
     const res = []
     const pairs = []
@@ -559,70 +589,87 @@ const scanner = (array = []) =>{
         }
     }
 
-   const s_array =  split_array(array,pairs);
-
-    const exponent_data = {
-        exponent:'',
-        no:1,
-        sign: OPCODES.ADD
-    }
-
-    console.log(s_array);
-
-    let current_state;
     
-    const states = {
-        numeral:(token, index)=>{
-            console.log(token);
+    const s_array =  split_array(array,pairs);
 
-            if (token == OPCODES.EVAL) {
-                current_state = states.eval
-            }
-
-            if (token == OPCODES.PWR) {
-                
-            }
-        },
-        eval:(token, index)=>{
-            // console.log(token);
-
-            if (!opcodeVals.includes(token)) {
-                current_state = states.eval
-            }
-
-            if (token == OPCODES.PWR) {
-                
-            }
-        },
-        pwr:(token, index)=>{
-            console.log(token);
-            // if (!opcodeVals.includes(token)) {
-            //     current_state = states.eval
-            // }
-
-            // if (token == OPCODES.EVAL) {
-            //     current_state = states.eval
-            // }
-        }
-
-    }
-
-    current_state = states.numeral
-
-    for (let i = 1; i < s_array.length; i++) {
+    for (let i = 0; i < s_array.length; i++) {
+        const pwr_pairs = []
         const arr = s_array[i];
         
         for (let j = 0; j < arr.length; j++) {
             const token = arr[j];
-            
-            if (token != OPCODES.MUL && token != OPCODES.DIV) {
-                current_state(token,i);
+            if (token == OPCODES.PWR) {
+                pwr_pairs.push(j)
             }
         }
+
+        const s_pwr_split = split_array(arr,pwr_pairs)
+
+        let data = {
+            variable:null,
+            exponent:null,
+            sign: OPCODES.ADD,
+            value:null,
+        }
+
+        let view;
+
+        for (let j = 0; j < s_pwr_split.length; j++) {
+            const s_pwr = s_pwr_split[j];
+            
+            if (j == 0) {
+                const val = s_pwr.find(x => {
+                    if (x == OPCODES.EVAL) {
+                        return x
+                    }
+
+                    if (!opcodeVals.includes(x)) {
+                        return x
+                    }
+                })
+
+                const idx = s_pwr.indexOf(val)
+                const sign = s_pwr[idx-1] ?? OPCODES.ADD
+                const value = val == OPCODES.EVAL ? s_pwr[idx+1] : null
+
+                
+                data.variable = val
+                data.sign = sign,
+                data.value = value
+
+                data.exponent = {}
+                view = data
+
+            }else{
+                const val = s_pwr.find(x => {
+                    if (x == OPCODES.EVAL) {
+                        return x
+                    }
+
+                    if (!opcodeVals.includes(x)) {
+                        return x
+                    }
+                })
+
+                const idx = s_pwr.indexOf(val)
+                const sign = s_pwr[idx-1] ?? OPCODES.ADD
+                const value = val == OPCODES.EVAL ? s_pwr[idx+1] : null
+                
+                view.exponent = {
+                    variable:val,
+                    exponent:null,
+                    sign: sign,
+                    value:value,
+                }
+
+                view = view.exponent 
+            }
+        }
+        
+        res.push(data);
     }
 
-    console.log(res);
-
+    return res
 }
 
 const pairer = (arr1,arr2) =>{
@@ -735,14 +782,22 @@ const pairer = (arr1,arr2) =>{
 
     let arr2_pairs = split_array(arr2,l_pair_idx)
 
-    // arr1_pairs = arr1_pairs.map(x=>asymetric_sorter(x,opcodeVals))
-    // arr2_pairs = arr2_pairs.map(x=>asymetric_sorter(x,opcodeVals))
 
-
+    const res_1 = []
     arr1_pairs.forEach(x=>{
-        scanner(x)
-
+        res_1.push(scanner(x)[0])
     })
+
+    console.log(res_1);
+
+    console.log("Scanner 2");
+
+    const res_2 = []
+    arr2_pairs.forEach(x=>{
+        res_2.push(scanner(x)[0])
+    })
+
+    console.log(res_2);
 }
 
 pairer(arr3,arr2)
