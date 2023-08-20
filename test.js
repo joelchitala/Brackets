@@ -1,7 +1,8 @@
 
 const arr1 = ['n','MUL', 'SUB','x', 'PWR', 'SUB','2','MUL', 'a','MUL', 'SUB', 'EVAL','1','SUB','1','ADD','7']
-const arr2 = ['SUB','n','SUB','2','ADD','5']
-const arr3 = ['EVAL','1','PWR','SUB','2','PWR','SUB','3','SUB','5']
+const arr2 = ['SUB','n','ADD','5']
+const arr3 = ['SUB','n','ADD','9']
+// const arr3 = ['EVAL','1','PWR','SUB','2','PWR','SUB','3','SUB','5']
 // const arr3 = ['ADD','n','MUL','SUB', 'EVAL', '1','PWR','ADD','25','PWR','SUB','19','PWR','ADD','EVAL','2']
 
 const OPCODES = {
@@ -168,380 +169,6 @@ const asymetric_sorter = (array = [], ommit = [], reverse = false) =>{
     return res
 }
 
-// const scanner = (array = []) =>{
-//     const data = {
-//         coef:[],
-//         num_coef:1,
-//         sign:OPCODES.ADD,
-//         value:'',
-//     }
-
-
-//     // let skip = 0
-//     // for (let i = 0; i < array.length; i++) {
-//     //     const token = array[i];
-        
-//     //     if (opcodeVals.includes(token)) {
-            
-//     //         if (token == OPCODES.SUB) {
-//     //             data.sign = data.sign == OPCODES.ADD ? OPCODES.SUB : OPCODES.ADD
-//     //         }
-
-//     //         if (token == OPCODES.PWR) {
-//     //             for (let i = 0; i < data.coef.length; i++) {
-//     //                 const var_data = data.coef[i];
-                    
-//     //                 if (var_data.variable == array[i-1]) {
-//     //                     var_data.exponent = array[i+1]
-//     //                     break;
-//     //                 }
-//     //             }
-//     //             skip++
-//     //         }
-
-//     //         if (token == OPCODES.DIV) {
-//     //             for (let i = 0; i < data.coef.length; i++) {
-//     //                 const var_data = data.coef[i];
-                    
-//     //                 if (var_data.variable == array[i+1]) {
-//     //                     var_data.exponent = array[i+1]
-//     //                     break;
-//     //                 }
-//     //             }
-//     //         }
-//     //     }else{
-//     //         if (skip == 0) {
-//     //             if (token.match("[0-9]")) {
-//     //                 data.num_coef *= parseFloat(token)
-//     //             }else{
-//     //                 let var_data = {
-//     //                     variable: token,
-//     //                     exponent:1
-//     //                 }
-//     //                 data.coef.push(var_data)
-//     //             }
-//     //         }else{
-//     //             skip--
-//     //         }
-//     //     }
-
-//     // }
-
-//     let current_state;
-
-//     const states = {
-//         skip: 0,
-//         eval_skip: 0,
-//         numeric:(token,index)=>{
-//             if (!token.match('[0-9]') && !opcodeVals.includes(token)) {
-//                 current_state = states.variable
-
-//                 const var_data = {
-//                     coef: token,
-//                     exponent:{
-//                         value:'1',
-//                         sign: OPCODES.ADD
-//                     },
-//                     sign: array[index-1] ?? OPCODES.ADD
-//                 }
-
-//                 data.coef.push(var_data);
-//             }
-
-//             else if (token == OPCODES.ADD || token == OPCODES.SUB) {
-//                 current_state = states.add_sub
-
-                
-
-//             }
-
-//             else if (token == OPCODES.MUL || token == OPCODES.DIV) {
-//                 current_state = states.mul_div
-//             }
-
-//             else if (token == OPCODES.PWR) {
-//                 current_state = states.pwr
-//             }
-//             else if(token.match("[0-9]")){
-//                 console.log(token);
-//             }
-
-//             if (token == OPCODES.EVAL) {
-//                 current_state = states.eval
-
-//                 if (states.skip == 0 ) {
-//                     const var_data = {
-//                         coef: token,
-//                         exponent:{
-//                             value:'1',
-//                             sign: OPCODES.ADD
-//                         },
-//                         sign: array[index-1] != OPCODES.SUB ? OPCODES.ADD : OPCODES.SUB
-//                     }
-                    
-//                     data.coef.push(var_data);
-//                 }else{
-//                     states.skip--
-//                 }
-
-//                 // states.eval++
-//             }
-//         },
-//         variable:(token,index)=>{
-//             if (token.match('[0-9]') && !opcodeVals.includes(token)) {
-//                 current_state = states.numeric
-//             }
-
-//            else if (token == OPCODES.ADD || token == OPCODES.SUB) {
-//                 current_state = states.add_sub
-//             }
-
-//             else if (token == OPCODES.MUL || token == OPCODES.DIV) {
-//                 current_state = states.mul_div
-//             }
-
-//             else if (token == OPCODES.PWR) {
-//                 current_state = states.pwr
-//             }
-
-//             if (token == OPCODES.EVAL) {
-//                 current_state = states.eval
-
-//                 if (states.skip == 0 ) {
-//                     const var_data = {
-//                         coef: token,
-//                         exponent:{
-//                             value:'1',
-//                             sign: OPCODES.ADD
-//                         },
-//                         sign: array[index-1] != OPCODES.SUB ? OPCODES.ADD : OPCODES.SUB
-//                     }
-                    
-//                     data.coef.push(var_data);
-//                 }else{
-//                     states.skip--
-//                 }
-
-//                 // states.eval++
-//             }
-
-//         },
-//         add_sub:(token,index)=>{
-//             if (!token.match('[0-9]') && !opcodeVals.includes(token)) {
-//                 current_state = states.variable
-
-//                 if (states.skip == 0 ) {
-//                     const var_data = {
-//                         coef: token,
-//                         exponent:{
-//                             value:'1',
-//                             sign: OPCODES.ADD
-//                         },
-//                         sign: array[index-1] != OPCODES.SUB ? OPCODES.ADD : OPCODES.SUB
-//                     }
-                    
-//                     data.coef.push(var_data);
-//                 }else{
-//                     states.skip--
-//                 }
-                
-//             }
-
-//             if (token.match('[0-9]') && !opcodeVals.includes(token)) {
-//                 current_state = states.numeric
-
-                
-//                 if (states.skip == 0 ) {
-//                     const var_data = {
-//                         coef: token,
-//                         exponent:{
-//                             value:'1',
-//                             sign: OPCODES.ADD
-//                         },
-//                         sign: array[index-1] != OPCODES.SUB ? OPCODES.ADD : OPCODES.SUB
-//                     }
-                    
-//                     data.coef.push(var_data);
-//                 }else{
-//                     states.skip--
-//                 }
-//             }
-
-//             if (token == OPCODES.MUL || token == OPCODES.DIV) {
-//                 current_state = states.mul_div
-//             }
-
-//             if (token == OPCODES.PWR) {
-//                 current_state = states.pwr
-//             }
-
-//             if (token == OPCODES.EVAL) {
-//                 current_state = states.eval
-
-//                 if (states.skip == 0 ) {
-//                     const var_data = {
-//                         coef: token,
-//                         exponent:{
-//                             value:'1',
-//                             sign: OPCODES.ADD
-//                         },
-//                         sign: array[index-1] != OPCODES.SUB ? OPCODES.ADD : OPCODES.SUB
-//                     }
-                    
-//                     data.coef.push(var_data);
-//                 }else{
-//                     states.skip--
-//                 }
-
-//                 // states.eval++
-//             }
-            
-//         },
-//         mul_div:(token,index)=>{
-//             if (!token.match('[0-9]') && !opcodeVals.includes(token)) {
-//                 current_state = states.variable
-
-//                 const var_data = {
-//                     coef: token,
-//                     exponent:{
-//                         value:'1',
-//                         sign: OPCODES.ADD
-//                     },
-//                     sign: array[index-1] != OPCODES.SUB ? OPCODES.ADD : OPCODES.SUB
-//                 }
-
-//                 data.coef.push(var_data);
-//             }
-
-//             if (token.match('[0-9]') && !opcodeVals.includes(token)) {
-//                 current_state = states.numeric
-
-//                 const var_data = {
-//                     coef: token,
-//                     exponent:{
-//                         value:'1',
-//                         sign: OPCODES.ADD
-//                     },
-//                     sign: array[index-1] != OPCODES.SUB ? OPCODES.ADD : OPCODES.SUB
-//                 }
-
-//                 data.coef.push(var_data);
-//             }
-
-//             if (token == OPCODES.ADD || token == OPCODES.SUB) {
-//                 current_state = states.add_sub
-//             }
-//             if (token == OPCODES.PWR) {
-//                 current_state = states.pwr
-//             }
-//         },
-//         pwr:(token,index)=>{
-            
-//             if (!token.match('[0-9]') && !opcodeVals.includes(token)) {
-//                 current_state = states.variable
-//                 // if (states.skip > 0) states.skip--
-
-//                 for (let i = 0; i < data.coef.length; i++) {
-//                     const el = data.coef[i];
-                    
-//                     if (el.coef == array[index-1]) {
-//                         el.exponent.value = array[index+1]
-//                         break;
-//                     }
-//                 }
-//             }
-
-//             if (token.match('[0-9]') && !opcodeVals.includes(token)) {
-//                 current_state = states.numeric
-//                 if (states.eval_skip > 0) {
-//                     for (let i = 0; i < data.coef.length; i++) {
-//                         const el = data.coef[i];
-                        
-//                         if (el.coef == array[index-3]) {
-//                             console.log(array[index]);
-//                             el.exponent.value = array[index]
-//                             break;
-//                         }
-//                     }
-//                     states.eval_skip--
-
-//                 }else{
-//                     for (let i = 0; i < data.coef.length; i++) {
-//                         const el = data.coef[i];
-                        
-                        
-//                         if (el.coef == array[index-2]) {
-//                             el.exponent.value = array[index]
-//                             break;
-//                         }
-//                     }
-//                 }
-                
-//             }
-
-//             if (token == OPCODES.ADD || token == OPCODES.SUB) {
-                
-//                 if (states.eval_skip > 0) {
-//                     for (let i = 0; i < data.coef.length; i++) {
-//                         const el = data.coef[i];
-                        
-//                         if (el.coef == array[index-3]) {
-//                             el.exponent.value = array[index+1]
-//                             el.exponent.sign = token
-//                             break;
-//                         }
-//                     }
-//                     states.eval_skip--
-//                 }else{
-//                     current_state = states.add_sub
-//                     states.skip++
-//                     for (let i = 0; i < data.coef.length; i++) {
-//                         const el = data.coef[i];
-                        
-//                         if (el.coef == array[index-2]) {
-//                             el.exponent.value = array[index+1]
-//                             el.exponent.sign = token
-//                             break;
-//                         }
-//                     }
-//                 }
-//             }
-
-//             // if (token == OPCODES.MUL || token == OPCODES.DIV) {
-//             //     current_state = states.mul_div
-//             // }
-//         },
-
-//         eval:(token,index)=>{
-//             // if(token == OPCODES.ADD || token == OPCODES.SUB){
-//             //     current_state = states.add_sub
-//             // }
-
-//             if(token == OPCODES.MUL || token == OPCODES.DIV){
-//                 current_state = states.mul_div
-//             }
-
-//             if (token == OPCODES.PWR) {
-//                 current_state = states.pwr
-//                 states.eval_skip++
-//             }
-//         }
-//     }
-
-//     current_state = states.numeric
-
-
-//     console.log(array);
-//     for (let i = 0; i < array.length; i++) {
-//         const token = array[i];
-        
-//         current_state(token,i)
-//     }
-
-//     console.log(data);
-
-// }
-
 const dict_traverser = (dict={},key) =>{
 
     
@@ -610,12 +237,15 @@ const scanner = (array = []) =>{
             exponent:null,
             sign: OPCODES.ADD,
             value:null,
+            multi:null,
+            differed:null
         }
 
         let view;
 
         for (let j = 0; j < s_pwr_split.length; j++) {
             const s_pwr = s_pwr_split[j];
+            
             
             if (j == 0) {
                 const val = s_pwr.find(x => {
@@ -632,6 +262,9 @@ const scanner = (array = []) =>{
                 const sign = s_pwr[idx-1] ?? OPCODES.ADD
                 const value = val == OPCODES.EVAL ? s_pwr[idx+1] : null
 
+                if (idx-2 >= 0) {
+                    data.multi = s_pwr[idx-2];
+                }
                 
                 data.variable = val
                 data.sign = sign,
@@ -640,6 +273,7 @@ const scanner = (array = []) =>{
                 data.exponent = {}
                 view = data
 
+                
             }else{
                 const val = s_pwr.find(x => {
                     if (x == OPCODES.EVAL) {
@@ -660,6 +294,16 @@ const scanner = (array = []) =>{
                     exponent:null,
                     sign: sign,
                     value:value,
+                    multi: null,
+                    differed:null
+                }
+
+                if (idx-2 >= 0) {
+
+                    if (s_pwr[idx-2] == OPCODES.MUL || s_pwr[idx-2] == OPCODES.DIV ) {
+                        view.exponent.multi = s_pwr[idx-2] ;
+                        
+                    }
                 }
 
                 view = view.exponent 
@@ -785,19 +429,55 @@ const pairer = (arr1,arr2) =>{
 
     const res_1 = []
     arr1_pairs.forEach(x=>{
-        res_1.push(scanner(x)[0])
+        res_1.push(scanner(x))
     })
 
-    console.log(res_1);
 
-    console.log("Scanner 2");
-
+    // console.log("Scanner 2");
+    
     const res_2 = []
     arr2_pairs.forEach(x=>{
-        res_2.push(scanner(x)[0])
+        res_2.push(scanner(x))
     })
 
-    console.log(res_2);
+    let groups = []
+
+    for (let i = 0; i < res_2.length; i++) {
+        const r_2 = res_2[i];
+        const group = []
+        for (let j = 0; j < res_1.length; j++) {
+            const r_1 = res_1[j];
+            group.push(r_1)
+            group.push(r_2)
+            group.push(OPCODES.ADD)
+        }
+        groups.push(group)
+    }
+
+    
+    groups = groups.map(x => {
+        x.pop()
+        return x
+    })
+    
+
+    
+    for (let i = 0; i < groups.length; i++) {
+        const group = groups[i];
+        
+        const group_pairs = []
+        for (let j = 0; j < group.length; j++) {
+            const g = group[j];
+            if (g == OPCODES.ADD) {
+                group_pairs.push(j)
+            }
+            
+        }
+
+        console.log(split_array(group,group_pairs));
+    }
+
+
 }
 
 pairer(arr3,arr2)
