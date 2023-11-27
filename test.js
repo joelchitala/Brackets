@@ -1,7 +1,7 @@
 
 const arr1 = ['n','MUL', 'SUB','x', 'PWR', 'SUB','2','MUL', 'a','MUL', 'SUB', 'EVAL','1','SUB','1','ADD','7']
 const arr2 = ['SUB','n','MUL','ADD','2','ADD','5']
-const arr3 = ['SUB','n','ADD','9']
+const arr3 = ['SUB','n','ADD','9','PWR','ADD','2','PWR','ADD','n']
 // const arr3 = ['EVAL','1','PWR','SUB','2','PWR','SUB','3','SUB','5']
 // const arr3 = ['ADD','n','MUL','SUB', 'EVAL', '1','PWR','ADD','25','PWR','SUB','19','PWR','ADD','EVAL','2']
 
@@ -13,6 +13,20 @@ const OPCODES = {
     PWR:"PWR",
     BRKOP:"BRKOP",
     BRKCL:"BRKCL",
+    EVAL:"EVAL",
+    SIN:"SIN",
+    COS:"COS",
+    TAN:"TAN",
+}
+
+const DECODED_OPCODES = {
+    ADD:"+",
+    SUB:"-",
+    MUL:"*",
+    DIV:"/",
+    PWR:"^",
+    BRKOP:"(",
+    BRKCL:")",
     EVAL:"EVAL",
     SIN:"SIN",
     COS:"COS",
@@ -238,7 +252,8 @@ const scanner = (array = []) =>{
             sign: OPCODES.ADD,
             value:null,
             multi:null,
-            differed:null
+            differed:null,
+            raw_exponent:'',
         }
 
         let view;
@@ -272,7 +287,7 @@ const scanner = (array = []) =>{
 
                 data.exponent = {}
                 view = data
-
+                
                 
             }else{
                 const val = s_pwr.find(x => {
@@ -307,6 +322,8 @@ const scanner = (array = []) =>{
                 }
 
                 view = view.exponent 
+
+                data.raw_exponent += `${j==1 ? '' : '^'}(${DECODED_OPCODES[sign]}${val})`
             }
         }
         
@@ -474,7 +491,22 @@ const pairer = (arr1,arr2) =>{
             
         }
 
-        console.log(split_array(group,group_pairs));
+        const s_pairs = split_array(group,group_pairs)
+        
+        for (let i = 0; i < s_pairs.length; i++) {
+            let combined = []
+            const pair = s_pairs[i];
+            
+            pair.forEach(x=>{
+                if(typeof(x) == 'object'){
+                    x.forEach(y=>{
+                        combined.push(y)
+                    })
+                }
+            })
+            console.log(combined);
+        }
+
     }
 
 

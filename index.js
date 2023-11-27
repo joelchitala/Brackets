@@ -36,6 +36,22 @@ const OPCODES = {
     TAN:"TAN",
 }
 
+const DECODED_OPCODES = {
+    ADD:"+",
+    SUB:"-",
+    MUL:"*",
+    DIV:"/",
+    PWR:"^",
+    BRKOP:"(",
+    BRKCL:")",
+    EVAL:"EVAL",
+    SIN:"SIN",
+    COS:"COS",
+    TAN:"TAN",
+}
+
+// console.log(DECODED_OPCODES["ADD"]);
+
 const calculatePrecidence = (decomposed) =>{
     const array = [];
     let index = 0;
